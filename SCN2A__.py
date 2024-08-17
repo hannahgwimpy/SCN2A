@@ -39,10 +39,8 @@ from modeller.automodel import *
 
 # Constants
 UNIPROT_ID = 'Q99250'
-CLEANED_PDB_FILE_DIR = "cleaned_pdb_files"
-TEMPLATE_PDB_ID = (
-    '~/DS2500_1/6J8E.pdb'
-)
+CLEANED_PDB_FILE_DIR = os.path.expanduser('~/SCN2A/cleaned_pdb_files')
+TEMPLATE_PDB_ID = os.path.expanduser('~/SCN2A/6J8E.pdb')
 
 def fetch_uniprot_data(uniprot_id):
     """
@@ -2131,113 +2129,6 @@ def generate_presentation_script_pdf(
 
     pdf.output(filename)
 
-    script_content = """
-    Slide 1: Title Slide
-    Welcome to my presentation on the 'Analysis of Protein Structure Deviations in SCN2A Mutations.'
-    My name is Hannah Wimpy. Today, I will walk you through the work I've done to investigate the
-    structural impacts of mutations in the SCN2A gene, particularly regarding their role in
-    neurodevelopmental disorders like epilepsy and autism.
-    
-    Slide 2: Introduction
-    SCN2A mutations have been linked to a range of neurodevelopmental disorders, including epilepsy
-    and autism. The SCN2A gene encodes the sodium channel protein NaV1.2, which plays a critical
-    role in neural signaling. Mutations in this gene can cause structural changes in the protein,
-    leading to altered function and potentially severe clinical outcomes. This project focuses on
-    using structural metrics such as Root Mean Square Deviation (RMSD) and Solvent Accessible
-    Surface Area (SASA) to predict the pathogenicity of these mutations.
-    
-    Slide 3: Project Motivation
-    Why is this important? SCN2A is crucial for neural development, and mutations in this gene can
-    have profound impacts on brain function. By understanding how these mutations alter the
-    protein's structure, we can better predict clinical outcomes and develop targeted treatments.
-    This research aims to connect structural changes with the likelihood of diseases like epilepsy
-    and autism.
-    
-    Slide 4: Research Question and Hypothesis
-    The core research question is: Can structural deviations measured by RMSD and SASA predict
-    the pathogenicity of SCN2A mutations and their associated clinical outcomes? My hypothesis
-    is that mutations causing larger deviations in protein structure, as measured by these metrics,
-    are more likely to be pathogenic and associated with epilepsy or autism compared to other
-    conditions.
-    
-    Slide 5: Data and Methodology
-    This project uses variant data from the UniProt database, focusing on SCN2A mutations. For
-    each variant, mutant protein structures were generated, and RMSD and SASA values were calculated.
-    These values were then used to classify mutations based on their clinical outcomes. Tools like
-    Modeller, UniProt, and machine learning models were used to conduct the analysis.
-    
-    Slide 6: Data Visualization
-    The visualizations played a key role in understanding the relationships between RMSD, SASA,
-    and clinical outcomes. By analyzing the distribution of these values, patterns were observed
-    that supported the hypothesis: mutations with higher RMSD and SASA values tend to be pathogenic.
-    
-    Slide 7: Data Processing Pipeline
-    The data processing pipeline involves several steps: fetching variant data from UniProt,
-    generating mutant protein structures, calculating RMSD and SASA, classifying mutations, and
-    visualizing the results. This pipeline ensures that the data is processed systematically and
-    that the results are reliable.
-    
-    Slide 8: Key Functions and Code Highlights
-    Some critical functions include:
-    - fetch_uniprot_data(): Retrieves data from UniProt.
-    - generate_mutant_sequences(): Generates mutant protein sequences.
-    - structural_analysis(): Analyzes RMSD and SASA to assess the structural impact of mutations.
-    
-    Slide 9: Results Overview
-    The analysis revealed that RMSD and SASA are somewhat effective in distinguishing pathogenic
-    from benign mutations. However, the regression model performed poorly, suggesting that these
-    metrics alone are insufficient for prediction. The classification model showed limited success,
-    while association analysis was more promising.
-    
-    Slide 10: Regression Analysis: True vs Predicted
-    This slide presents the regression analysis comparing true vs predicted values. The key metrics
-    are:
-    - Mean Squared Error (MSE): {mse:.4f}
-    - R² Score: {r2:.4f}
-    The poor R² score suggests that RMSD and SASA may not be strong predictors of pathogenicity
-    on their own.
-    
-    Slide 11: Residual Analysis
-    This slide shows the residual analysis, highlighting the model's difficulty in accurately
-    predicting clinical outcomes based solely on RMSD and SASA.
-    
-    Slide 12: Classification Analysis Results
-    This slide shows the classification analysis results with a confusion matrix. Key metrics are:
-    - Accuracy: {accuracy_class:.4f}
-    - F1 Score: {f1_class:.4f}
-    The classification model had moderate success, but the results suggest that additional data
-    or features may be needed for better prediction accuracy.
-    
-    Slide 13: Association Analysis Results
-    This slide shows the association analysis results, demonstrating how well the model predicts
-    different clinical outcomes like epilepsy and autism. The key metrics are:
-    - Accuracy: {accuracy_assoc:.4f}
-    - F1 Score: {f1_assoc:.4f}
-    The better performance in association analysis suggests that RMSD and SASA are more relevant
-    for predicting certain clinical conditions.
-    
-    Slide 14: Conclusion and Implications
-    The results indicate that RMSD and SASA can provide insights into pathogenicity and clinical
-    outcomes, but are insufficient as standalone predictors. Future work should involve integrating
-    additional structural metrics and omics data to improve predictive power.
-    
-    Slide 15: Future Work
-    Next steps include:
-    - Expanding the dataset to include more mutations and structural metrics.
-    - Refining the classification model with additional features.
-    - Investigating the role of PIP2 modulation in SCN2A function and its clinical relevance.
-    
-    Slide 16: Challenges Faced
-    Some challenges included:
-    - High computational demand for structural calculations.
-    - Limited availability of data for rare mutations.
-    - Difficulty in balancing multiple clinical outcomes in a single model.
-    
-    Slide 17: Questions?
-    Thank you for your attention. I’m happy to take any questions you may have.
-    """
-    script_content = sanitize_script_content(script_content)
-
 def set_font(shape):
     """
     Set the font of a shape to Times New Roman.
@@ -2294,7 +2185,7 @@ def create_presentation_with_detailed_content(mse, r2, accuracy_class, f1_class,
     add_challenges_slide(prs)
     add_questions_slide(prs)
 
-    pptx_file = "~/DS2500_1/SCN2A_Project_Presentation_with_Detailed_Content.pptx"
+    pptx_file = os.path.expanduser('~/SCN2A/SCN2A_Project_Presentation_with_Detailed_Content.pptx')
     prs.save(pptx_file)
 
 def add_title_slide(prs):
@@ -3225,8 +3116,114 @@ def analyze_and_generate_reports(combined_data):
     )
     
     # Step 12: Generate a presentation script PDF
+    script_content = """
+    Slide 1: Title Slide
+    Welcome to my presentation on the 'Analysis of Protein Structure Deviations in SCN2A Mutations.'
+    My name is Hannah Wimpy. Today, I will walk you through the work I've done to investigate the
+    structural impacts of mutations in the SCN2A gene, particularly regarding their role in
+    neurodevelopmental disorders like epilepsy and autism.
+    
+    Slide 2: Introduction
+    SCN2A mutations have been linked to a range of neurodevelopmental disorders, including epilepsy
+    and autism. The SCN2A gene encodes the sodium channel protein NaV1.2, which plays a critical
+    role in neural signaling. Mutations in this gene can cause structural changes in the protein,
+    leading to altered function and potentially severe clinical outcomes. This project focuses on
+    using structural metrics such as Root Mean Square Deviation (RMSD) and Solvent Accessible
+    Surface Area (SASA) to predict the pathogenicity of these mutations.
+    
+    Slide 3: Project Motivation
+    Why is this important? SCN2A is crucial for neural development, and mutations in this gene can
+    have profound impacts on brain function. By understanding how these mutations alter the
+    protein's structure, we can better predict clinical outcomes and develop targeted treatments.
+    This research aims to connect structural changes with the likelihood of diseases like epilepsy
+    and autism.
+    
+    Slide 4: Research Question and Hypothesis
+    The core research question is: Can structural deviations measured by RMSD and SASA predict
+    the pathogenicity of SCN2A mutations and their associated clinical outcomes? My hypothesis
+    is that mutations causing larger deviations in protein structure, as measured by these metrics,
+    are more likely to be pathogenic and associated with epilepsy or autism compared to other
+    conditions.
+    
+    Slide 5: Data and Methodology
+    This project uses variant data from the UniProt database, focusing on SCN2A mutations. For
+    each variant, mutant protein structures were generated, and RMSD and SASA values were calculated.
+    These values were then used to classify mutations based on their clinical outcomes. Tools like
+    Modeller, UniProt, and machine learning models were used to conduct the analysis.
+    
+    Slide 6: Data Visualization
+    The visualizations played a key role in understanding the relationships between RMSD, SASA,
+    and clinical outcomes. By analyzing the distribution of these values, patterns were observed
+    that supported the hypothesis: mutations with higher RMSD and SASA values tend to be pathogenic.
+    
+    Slide 7: Data Processing Pipeline
+    The data processing pipeline involves several steps: fetching variant data from UniProt,
+    generating mutant protein structures, calculating RMSD and SASA, classifying mutations, and
+    visualizing the results. This pipeline ensures that the data is processed systematically and
+    that the results are reliable.
+    
+    Slide 8: Key Functions and Code Highlights
+    Some critical functions include:
+    - fetch_uniprot_data(): Retrieves data from UniProt.
+    - generate_mutant_sequences(): Generates mutant protein sequences.
+    - structural_analysis(): Analyzes RMSD and SASA to assess the structural impact of mutations.
+    
+    Slide 9: Results Overview
+    The analysis revealed that RMSD and SASA are somewhat effective in distinguishing pathogenic
+    from benign mutations. However, the regression model performed poorly, suggesting that these
+    metrics alone are insufficient for prediction. The classification model showed limited success,
+    while association analysis was more promising.
+    
+    Slide 10: Regression Analysis: True vs Predicted
+    This slide presents the regression analysis comparing true vs predicted values. The key metrics
+    are:
+    - Mean Squared Error (MSE): {mse:.4f}
+    - R² Score: {r2:.4f}
+    The poor R² score suggests that RMSD and SASA may not be strong predictors of pathogenicity
+    on their own.
+    
+    Slide 11: Residual Analysis
+    This slide shows the residual analysis, highlighting the model's difficulty in accurately
+    predicting clinical outcomes based solely on RMSD and SASA.
+    
+    Slide 12: Classification Analysis Results
+    This slide shows the classification analysis results with a confusion matrix. Key metrics are:
+    - Accuracy: {accuracy_class:.4f}
+    - F1 Score: {f1_class:.4f}
+    The classification model had moderate success, but the results suggest that additional data
+    or features may be needed for better prediction accuracy.
+    
+    Slide 13: Association Analysis Results
+    This slide shows the association analysis results, demonstrating how well the model predicts
+    different clinical outcomes like epilepsy and autism. The key metrics are:
+    - Accuracy: {accuracy_assoc:.4f}
+    - F1 Score: {f1_assoc:.4f}
+    The better performance in association analysis suggests that RMSD and SASA are more relevant
+    for predicting certain clinical conditions.
+    
+    Slide 14: Conclusion and Implications
+    The results indicate that RMSD and SASA can provide insights into pathogenicity and clinical
+    outcomes, but are insufficient as standalone predictors. Future work should involve integrating
+    additional structural metrics and omics data to improve predictive power.
+    
+    Slide 15: Future Work
+    Next steps include:
+    - Expanding the dataset to include more mutations and structural metrics.
+    - Refining the classification model with additional features.
+    - Investigating the role of PIP2 modulation in SCN2A function and its clinical relevance.
+    
+    Slide 16: Challenges Faced
+    Some challenges included:
+    - High computational demand for structural calculations.
+    - Limited availability of data for rare mutations.
+    - Difficulty in balancing multiple clinical outcomes in a single model.
+    
+    Slide 17: Questions?
+    Thank you for your attention. I’m happy to take any questions you may have.
+    """
+    script_content = sanitize_script_content(script_content)
     generate_presentation_script_pdf(
-    "/Users/hannahwimpy/DS2500_1/SCN2A_Project_Script_with_Detailed_Content.pdf",
+    os.path.expanduser('/Users/hannahwimpy/SCN2A/SCN2A_Project_Script_with_Detailed_Content.pdf'),
     script_content
 )
     
